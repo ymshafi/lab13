@@ -16,7 +16,7 @@ root = Tk()
 
 drawpad = Canvas(root, width=800,height=600, background='white')
 player = drawpad.create_oval(390,580,410,600, fill="red")
-
+circle = drawpad.create_oval(10,10,50,50, fill="green")
 # Create your "enemies" here, before the class
 
 
@@ -47,24 +47,25 @@ class MyApp:
        	    # Bind an event to the first button
        	    self.left.bind("<Button-1>", self.leftClicked)
        	    
-       	    
+       	    self.animate
+
        	    # No need to edit this - just includes the drawpad into our frame
        	    drawpad.pack(side=BOTTOM)
-	
+       	    
 	def animate(self):
 	    global drawpad
 	    global player
 	    # Remember to include your "enemies" with "global"
-	    global direction
+	    global circle
+	    print "hello"
             x1, y1, x2, y2 = drawpad.coords(circle)
-            if x2 > drawpad.winfo_width(): 
-                drawpad.move(circle, -800, 0)
-            elif x1 < 0:
+            if x2 < drawpad.winfo_width(): 
+                drawpad.move(circle, 800, 0)
                 direction = 6
         
-                drawpad.move(circle,direction,0)
+            drawpad.move(circle,1,0)
   
-                drawpad.after(1, animate)	
+            drawpad.after(1, self.animate)
 		
 	def upClicked(self, event):   
 	   global oval
@@ -84,21 +85,8 @@ class MyApp:
 	   drawpad.move(player,-10,0)	
 
 
-    global direction
-    # Get the x and y co-ordinates of the circle
-    x1, y1, x2, y2 = drawpad.coords(circle)
-    if x2 > drawpad.winfo_width(): 
-        drawpad.move(circle, -800, 0)
-    elif x1 < 0:
-        direction = 6
-    #Move our oval object by the value of direction
-    drawpad.move(circle,direction,0)
-    # Wait for 1 millisecond, then recursively call our animate function
-    drawpad.after(1, animate)
-
 # Kick off our animation
-animate()
-root.mainloop()	
 		
 app = MyApp(root)
+
 root.mainloop()
